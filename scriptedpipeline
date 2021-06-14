@@ -1,0 +1,23 @@
+node('master')
+{
+    stage("Contionous Download")
+    {
+        git 'https://github.com/shan5a6/myweb.git'
+    }
+    stage("Contionous Build")
+    {
+        sh 'mvn package'
+    }
+    stage("Contionous Deploment")
+    {
+        sh 'scp /home/ubuntu/.jenkins/workspace/Project1/target/myweb-0.12.0.war ubuntu@172.31.19.187:/var/lib/tomcat9/webapps/testapp.war'
+    }
+    stage("Contionous Testing")
+    {
+        sh 'echo "Testing Passed"'
+    }
+    stage("Contionous Production")
+    {
+        sh 'scp /home/ubuntu/.jenkins/workspace/Project1/target/myweb-0.12.0.war ubuntu@172.31.31.227:/var/lib/tomcat9/webapps/webapp.war'
+    }
+}
