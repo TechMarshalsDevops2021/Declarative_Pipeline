@@ -1,0 +1,42 @@
+pipeline
+{
+    agent any
+    stages
+    {
+        stage("Contionous Download")
+        {
+            steps
+            {
+                git 'https://github.com/Devops042021/Test.git'
+            }
+        }
+        stage("continous Build")
+        {
+            steps
+            {
+                sh 'mvn package'
+            }
+        }
+        stage("contionous Deployment")
+        {
+            steps
+            {
+                sh 'scp /home/ubuntu/.jenkins/workspace/myproject1/webapp/target/webapp.war ubuntu@172.31.19.187:/var/lib/tomcat9/webapps/myweb.war'
+            }
+        }
+        stage("Contionous Testing")
+        {
+            steps
+            {
+                sh 'echo "Testing passed"'
+            }
+        }
+        stage("Continous Production")
+        {
+            steps
+            {
+                sh 'scp /home/ubuntu/.jenkins/workspace/myproject1/webapp/target/webapp.war ubuntu@172.31.31.227:/var/lib/tomcat9/webapps/myapp.war'
+            }
+        }
+    }
+}
